@@ -9,8 +9,7 @@ class Autores extends Component {
         super(props)
 
         this.state = {
-            nomes: [],
-            titulo: 'Autores'
+            nomes: []
         }
     }
 
@@ -34,16 +33,13 @@ class Autores extends Component {
     }
 
     render() {
+        const campos = [{ titulo: 'Autores', dado: 'nome' }]
         return (
             <Fragment>
                 <Header />
                 <div className='container'>
                     <h1>Página de Autores</h1>
-                    <Tabela
-                        dados={this.state.nomes}
-                        titulo={this.state.titulo}
-                        campos={['nome']}
-                    />
+                    <Tabela dados={this.state.nomes} campos={campos} />
                 </div>
             </Fragment>
         )
