@@ -90,7 +90,7 @@ class Home extends Component {
                     <Tabela
                         campos={campos}
                         dados={this.state.autores}
-                        removeAutor={this.removeAutor}
+                        removeDados={this.removeAutor}
                     />
                     <Form escutadorDeSubmit={this.escutadorDeSubmit} />
                 </div>
