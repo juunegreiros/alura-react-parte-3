@@ -76,7 +76,12 @@ class Home extends Component {
     }
 
     render() {
-        const campos = ['autores', 'livros', 'preços', 'remover']
+        const campos = [
+            { titulo: 'Autores', dado: 'nome' },
+            { titulo: 'Livros', dado: 'livro' },
+            { titulo: 'Preços', dado: 'preco' }
+        ]
+
         return (
             <Fragment>
                 <Header />
@@ -84,7 +89,7 @@ class Home extends Component {
                     <h1>Casa do Código</h1>
                     <Tabela
                         campos={campos}
-                        autores={this.state.autores}
+                        dados={this.state.autores}
                         removeAutor={this.removeAutor}
                     />
                     <Form escutadorDeSubmit={this.escutadorDeSubmit} />

@@ -7,30 +7,30 @@ import TableRow from '@material-ui/core/TableRow'
 import Button from '@material-ui/core/Button'
 
 const Tabela = props => {
-    const { campos, autores, removeAutor } = props
+    const { campos, dados, removeAutor } = props
 
     return (
         <Table>
             <TableHead>
                 <TableRow>
                     {campos.map(campo => (
-                        <TableCell>{campo}</TableCell>
+                        <TableCell>{campo.titulo}</TableCell>
                     ))}
                 </TableRow>
             </TableHead>
             <TableHead />
             <TableBody>
-                {autores.map(autor => (
-                    <TableRow key={autor.id}>
-                        <TableCell>{autor.nome}</TableCell>
-                        <TableCell>{autor.livro}</TableCell>
-                        <TableCell>{autor.preco}</TableCell>
+                {dados.map(dados => (
+                    <TableRow key={dados.id}>
+                        {campos.map(campo => (
+                            <TableCell>{dados[campo.dado]}</TableCell>
+                        ))}
                         <TableCell>
                             <Button
                                 variant='contained'
                                 color='primary'
                                 onClick={() => {
-                                    removeAutor(autor.id)
+                                    removeAutor(dados.id)
                                 }}
                             >
                                 Remover
