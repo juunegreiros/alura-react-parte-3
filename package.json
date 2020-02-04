@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^4.9.0",
+    "@material-ui/lab": "^4.0.0-alpha.41",
     "material-ui": "^0.20.2",
     "materialize-css": "^1.0.0",
     "react": "^16.8.6",

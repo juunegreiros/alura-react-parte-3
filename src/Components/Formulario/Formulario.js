@@ -5,6 +5,7 @@ import Button from '@material-ui/core/Button'
 
 import FormValidator from '../../utils/FormValidator'
 import PopUp from '../../utils/PopUp'
+import Toast from '../Toast/Toast'
 
 class Formulario extends Component {
     constructor(props) {
@@ -36,7 +37,12 @@ class Formulario extends Component {
             nome: '',
             livro: '',
             preco: '',
-            validacao: this.validador.valido()
+            validacao: this.validador.valido(),
+            mensagem: {
+                open: false,
+                texto: '',
+                tipo: ''
+            }
         }
 
         this.state = this.stateInicial
@@ -62,8 +68,17 @@ class Formulario extends Component {
             const camposInvalidos = campos.filter(elem => {
                 return elem.isInvalid
             })
-            camposInvalidos.forEach(campo => {
-                PopUp.exibeMensagem('error', campo.mensagem)
+            const erros = camposInvalidos.reduce(
+                (erros, campo) => erros + campo.mensagem + '. ',
+                ''
+            )
+
+            this.setState({
+                mensagem: {
+                    mensagem: erros,
+                    tipo: 'error',
+                    open: true
+                }
             })
         }
     }
@@ -72,50 +87,61 @@ class Formulario extends Component {
         const { nome, livro, preco } = this.state
 
         return (
-            <form>
-                <Grid container spacing={2} alignItems='center'>
-                    <Grid item>
-                        <TextField
-                            id='nome'
-                            label='Nome'
-                            name='nome'
-                            variant='outlined'
-                            value={nome}
-                            onChange={this.escutadorDeInput}
-                        />
+            <>
+                <Toast
+                    open={this.state.mensagem.open}
+                    handleClose={() =>
+                        this.setState({ mensagem: { open: false } })
+                    }
+                    severity={this.state.mensagem.tipo}
+                >
+                    {this.state.mensagem.mensagem}
+                </Toast>
+                <form>
+                    <Grid container spacing={2} alignItems='center'>
+                        <Grid item>
+                            <TextField
+                                id='nome'
+                                label='Nome'
+                                name='nome'
+                                variant='outlined'
+                                value={nome}
+                                onChange={this.escutadorDeInput}
+                            />
+                        </Grid>
+                        <Grid item>
+                            <TextField
+                                id='livro'
+                                label='Livro'
+                                name='livro'
+                                variant='outlined'
+                                value={livro}
+                                onChange={this.escutadorDeInput}
+                            />
+                        </Grid>
+                        <Grid item>
+                            <TextField
+                                id='preco'
+                                label='Preço'
+                                name='preco'
+                                variant='outlined'
+                                value={preco}
+                                onChange={this.escutadorDeInput}
+                            />
+                        </Grid>
+                        <Grid item>
+                            <Button
+                                variant='contained'
+                                color='primary'
+                                onClick={this.submitFormulario}
+                                type='button'
+                            >
+                                Salvar
+                            </Button>
+                        </Grid>
                     </Grid>
-                    <Grid item>
-                        <TextField
-                            id='livro'
-                            label='Livro'
-                            name='livro'
-                            variant='outlined'
-                            value={livro}
-                            onChange={this.escutadorDeInput}
-                        />
-                    </Grid>
-                    <Grid item>
-                        <TextField
-                            id='preco'
-                            label='Preço'
-                            name='preco'
-                            variant='outlined'
-                            value={preco}
-                            onChange={this.escutadorDeInput}
-                        />
-                    </Grid>
-                    <Grid item>
-                        <Button
-                            variant='contained'
-                            color='primary'
-                            onClick={this.submitFormulario}
-                            type='button'
-                        >
-                            Salvar
-                        </Button>
-                    </Grid>
-                </Grid>
-            </form>
+                </form>
+            </>
         )
     }
 }
