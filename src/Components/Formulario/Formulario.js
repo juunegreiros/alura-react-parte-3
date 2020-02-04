@@ -1,11 +1,14 @@
-import React, { Component } from 'react';
-import FormValidator from '../../utils/FormValidator';
+import React, { Component } from 'react'
+import TextField from '@material-ui/core/TextField'
+import Grid from '@material-ui/core/Grid'
+import Button from '@material-ui/core/Button'
+
+import FormValidator from '../../utils/FormValidator'
 import PopUp from '../../utils/PopUp'
 
 class Formulario extends Component {
-
     constructor(props) {
-        super(props);
+        super(props)
 
         this.validador = new FormValidator([
             {
@@ -23,7 +26,7 @@ class Formulario extends Component {
             {
                 campo: 'preco',
                 metodo: 'isInt',
-                args: [{min: 0, max: 99999}],
+                args: [{ min: 0, max: 99999 }],
                 validoQuando: true,
                 mensagem: 'Entre com um valor numérico'
             }
@@ -36,80 +39,84 @@ class Formulario extends Component {
             validacao: this.validador.valido()
         }
 
-        this.state = this.stateInicial;
-
+        this.state = this.stateInicial
     }
 
     escutadorDeInput = event => {
-        const { name, value } = event.target;
+        const { name, value } = event.target
 
         this.setState({
             [name]: value
-        });
+        })
     }
 
     submitFormulario = () => {
-        const validacao = this.validador.valida(this.state);
+        const validacao = this.validador.valida(this.state)
 
-        if(validacao.isValid){
-            this.props.escutadorDeSubmit(this.state);
-            this.setState(this.stateInicial);
-        }else{
-            const { nome, livro, preco } = validacao;
-            const campos = [nome, livro, preco];
+        if (validacao.isValid) {
+            this.props.escutadorDeSubmit(this.state)
+            this.setState(this.stateInicial)
+        } else {
+            const { nome, livro, preco } = validacao
+            const campos = [nome, livro, preco]
             const camposInvalidos = campos.filter(elem => {
-                return elem.isInvalid;
-            });
+                return elem.isInvalid
+            })
             camposInvalidos.forEach(campo => {
-                PopUp.exibeMensagem('error', campo.mensagem);
-            });
+                PopUp.exibeMensagem('error', campo.mensagem)
+            })
         }
-        
     }
 
     render() {
-
-        const { nome, livro, preco } = this.state;
+        const { nome, livro, preco } = this.state
 
         return (
             <form>
-                <div className="row">
-                    <div className="input-field col s4">
-                        <label className="input-field" htmlFor="nome">Nome</label>
-                        <input
-                            className="validate"
-                            id="nome"
-                            type="text"
-                            name="nome"
+                <Grid container spacing={2} alignItems='center'>
+                    <Grid item>
+                        <TextField
+                            id='nome'
+                            label='Nome'
+                            name='nome'
+                            variant='outlined'
                             value={nome}
-                            onChange={this.escutadorDeInput} />
-                    </div>
-                    <div className="input-field col s4">
-                        <label className="input-field" htmlFor="livro">Livro</label>
-                        <input
-                            className="validate"
-                            id="livro"
-                            type="text"
-                            name="livro"
+                            onChange={this.escutadorDeInput}
+                        />
+                    </Grid>
+                    <Grid item>
+                        <TextField
+                            id='livro'
+                            label='Livro'
+                            name='livro'
+                            variant='outlined'
                             value={livro}
-                            onChange={this.escutadorDeInput} />
-
-                    </div>
-                    <div className="input-field col s4">
-                        <label className="input-field" htmlFor="preco">Preço</label>
-                        <input
-                            className="validate"
-                            id="preco"
-                            type="text"
-                            name="preco"
+                            onChange={this.escutadorDeInput}
+                        />
+                    </Grid>
+                    <Grid item>
+                        <TextField
+                            id='preco'
+                            label='Preço'
+                            name='preco'
+                            variant='outlined'
                             value={preco}
-                            onChange={this.escutadorDeInput} />
-                    </div>
-                </div>
-                <button className="waves-effect waves-light indigo lighten-2 btn" onClick={this.submitFormulario} type="button">Salvar
-                </button>
+                            onChange={this.escutadorDeInput}
+                        />
+                    </Grid>
+                    <Grid item>
+                        <Button
+                            variant='contained'
+                            color='primary'
+                            onClick={this.submitFormulario}
+                            type='button'
+                        >
+                            Salvar
+                        </Button>
+                    </Grid>
+                </Grid>
             </form>
-        );
+        )
     }
 }
-export default Formulario;
+export default Formulario
